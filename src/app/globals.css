@@ -2,26 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.fancy-button {
+  box-shadow: 0 3px 0 0 #3f2abd;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  @apply scrollbar-thin scrollbar-thumb-zinc-300 scrollbar-track-transparent scrollbar-thumb-rounded-full;
+}
+
+.fancy-button:focus {
+  box-shadow: 0 0 0 0 #3f2abd;
+  outline: 0;
+  transform: translateY(3px);
+}
+
+.task ul[data-type="taskList"] {
+  list-style: none;
+  padding: 0;
+}
+
+.task ul[data-type="taskList"] li {
+  @apply flex items-center m-0 gap-2;
+}
+
+.task ul[data-type="taskList"] li > label,
+ul[data-type="taskList"] li > div {
+  margin: 0;
+  display: flex;
+  align-items: center;
 }

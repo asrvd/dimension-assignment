@@ -1,0 +1,29 @@
+.tiptap p.is-editor-empty:first-child::before {
+  @apply text-zinc-400 font-medium;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+ul[data-type="taskList"] {
+  list-style: none;
+  padding: 0;
+}
+
+ul[data-type="taskList"] li {
+  @apply flex items-center m-0 gap-2;
+}
+
+ul[data-type="taskList"] li > label, ul[data-type="taskList"] li > div {
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+em-emoji-picker {
+  @apply max-h-[300px] overflow-y-auto;
+}
+
+
+
