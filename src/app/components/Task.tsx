@@ -43,7 +43,7 @@ export default function TaskView({
           ></div>
         </div>
         <div className="flex flex-col gap-2 pt-2 justify-between items-center capitalize font-semibold text-zinc-900 border-t border-zinc-20 w-full">
-          <div className="flex justify-between gap-2 w-full items-center">
+          <div className="flex flex-col-reverse lg:flex-row justify-between gap-2 w-full lg:items-center">
             <div className="flex gap-2 justify-start items-center">
               <div className="flex gap-1 items-center bg-white border border-zinc-200 rounded-lg p-1 px-2 text-xs min-w-max font-medium">
                 {
@@ -98,12 +98,12 @@ export default function TaskView({
             </p>
           </div>
           {task.labels.length > 0 && (
-            <div className="flex gap-2 items-center justify-start w-full">
+            <div className="flex flex-col lg:flex-row gap-2 lg:items-center justify-start w-full">
               <p className="text-xs text-gray-700 font-medium">
                 <TagIcon className="w-4 h-4 inline-block mr-1" />
                 Tags
               </p>
-              <div className="flex gap-1">
+              <div className="flex gap-1 flex-wrap">
                 {task.labels.map((label) => (
                   <div
                     key={label}
@@ -125,12 +125,12 @@ export default function TaskView({
             </div>
           )}
           {task.assignees.length > 0 && (
-            <div className="flex gap-2 items-center justify-start w-full">
+            <div className="flex flex-col lg:flex-row gap-2 lg:items-center justify-start w-full">
               <p className="text-xs text-gray-700 font-medium">
                 <PersonIcon className="w-4 h-4 inline-block mr-1" />
                 Assignees
               </p>
-              <div className="flex gap-1 font-medium">
+              <div className="flex flex-wrap gap-1 font-medium">
                 {task.assignees.map((assignee, index) => (
                   <div
                     key={index}
