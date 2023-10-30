@@ -2,6 +2,8 @@ import TaskModal from "./components/TaskModal";
 import { prisma } from "./lib/db";
 import TaskCard from "./components/TaskCard";
 
+export const dynamic = "force-dynamic";
+
 async function getTasks() {
   const tasks = await prisma.task.findMany({
     orderBy: {
