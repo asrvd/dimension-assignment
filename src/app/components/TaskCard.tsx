@@ -21,27 +21,32 @@ export default function TaskCard({ task }: { task: Task }) {
         setShowModal={setShowTaskModal}
         task={task}
       />
-      <div className="flex gap-1 justify-start items-center w-full lg:w-[80%]">
-        <div className="flex gap-1 items-center bg-white border border-zinc-200 rounded-lg p-1 px-2 text-xs min-w-max">
-          {taskStatusData.find((status) => status.value === task.status)?.icon}
-          <p className="capitalize">
+      <div className="flex flex-col lg:flex-row gap-1 justify-start lg:items-center w-full lg:w-[80%]">
+        <div className="flex gap-1 items-center justify-start">
+          <div className="flex gap-1 items-center bg-white border border-zinc-200 rounded-lg p-1 px-2 text-xs min-w-max">
             {
               taskStatusData.find((status) => status.value === task.status)
-                ?.label
+                ?.icon
             }
-          </p>
+            <p className="capitalize">
+              {
+                taskStatusData.find((status) => status.value === task.status)
+                  ?.label
+              }
+            </p>
+          </div>
+          {task.priority === "" ? (
+            <div className="flex gap-1 items-center bg-white border border-zinc-200 rounded-lg p-1 px-2 text-xs min-w-max">
+              <span className="w-4 h-4 rounded-full bg-zinc-300" />
+              <p>No priority</p>
+            </div>
+          ) : (
+            <div className="flex gap-1 items-center bg-white border border-zinc-200 rounded-lg p-1 px-2 text-xs min-w-max">
+              {priorityIcons[task.priority as keyof typeof priorityIcons]}
+              <p className="capitalize">{task.priority}</p>
+            </div>
+          )}
         </div>
-        {task.priority === "" ? (
-          <div className="flex gap-1 items-center bg-white border border-zinc-200 rounded-lg p-1 px-2 text-xs min-w-max">
-            <span className="w-4 h-4 rounded-full bg-zinc-300" />
-            <p>No priority</p>
-          </div>
-        ) : (
-          <div className="flex gap-1 items-center bg-white border border-zinc-200 rounded-lg p-1 px-2 text-xs min-w-max">
-            {priorityIcons[task.priority as keyof typeof priorityIcons]}
-            <p className="capitalize">{task.priority}</p>
-          </div>
-        )}
 
         <p className="font-medium text-sm text-zinc-700 capitalize truncate">
           {task.title}
