@@ -4,7 +4,6 @@ import { Dialog } from "@headlessui/react";
 import Modal from "./ui/Modal";
 import { useState, useEffect } from "react";
 import {
-  LightningBoltIcon,
   ChevronRightIcon,
   Cross1Icon,
   PersonIcon,
@@ -33,6 +32,7 @@ import { CalendarPlusIcon } from "./icons/CalendarPlusIcon";
 import { EnterIcon } from "./icons/EnterIcon";
 import { useDebounce } from "@uidotdev/usehooks";
 import { SparkleIcon } from "./icons/SparkleIcon";
+import { LightningIcon } from "./icons/Lightning";
 import { z } from "zod";
 import { toast } from "react-hot-toast";
 import { SpinnerIcon } from "./icons/Spinner";
@@ -179,8 +179,8 @@ export default function TaskModal() {
             className="text-base flex justify-between items-center font-medium text-zinc-500"
           >
             <div className="flex gap-2 items-center">
-              <h3 className="px-2 py-1.5 rounded-lg bg-zinc-100">
-                <LightningBoltIcon className="w-4 h-4 inline-block mr-1 text-green-500" />
+              <h3 className="px-2 py-1.5 rounded-lg flex gap-1 items-center justify-center bg-zinc-100">
+                <LightningIcon className="w-4 h-4 text-green-500" />
                 Frontend
               </h3>
               <ChevronRightIcon className="w-4 h-4 inline-block" />

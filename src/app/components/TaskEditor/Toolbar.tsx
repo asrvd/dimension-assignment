@@ -29,6 +29,7 @@ export default function EditorToolbar({
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const emojiPickerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const [showLinkDialog, setShowLinkDialog] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -52,31 +53,60 @@ export default function EditorToolbar({
     };
   }, [setShowEmojiPicker, setNotInteractingWithModal]);
 
-  const setLink = useCallback(() => {
-    const previousUrl = editor.getAttributes("link").href;
-    const url = window.prompt("URL", previousUrl);
+  const SetLinkDialog = () => {
+    const previousUrl = editor.getAttributes("link").href ?? "";
 
-    // cancelled
-    if (url === null) {
-      return;
-    }
+    const [url, setUrl] = useState(previousUrl);
 
-    // empty
-    if (url === "") {
-      editor.chain().focus().extendMarkRange("link").unsetLink().run();
+    return (
+      <div className="flex gap-2 border border-zinc-200 bg-white rounded-lg p-2 shadow-sm">
+        <input
+          type="text"
+          className="w-full bg-transparent focus:outline-none border border-zinc-200 rounded-lg p-2"
+          placeholder="https://example.com"
+          value={url}
+          onChange={(e) => {
+            setUrl(e.target.value);
+          }}
+        />
+        <button
+          className="text-zinc-900 bg-zinc-200 hover:bg-zinc-300 rounded-lg p-2"
+          onClick={() => {
+            // cancelled
+            if (url === null) {
+              setShowLinkDialog(false);
+              return;
+            }
 
-      return;
-    }
+            // empty
+            if (url === "") {
+              editor.chain().focus().extendMarkRange("link").unsetLink().run();
+              setShowLinkDialog(false);
+              return;
+            }
 
-    // update link
-    editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
-  }, [editor]);
+            // update link
+            editor
+              .chain()
+              .focus()
+              .extendMarkRange("link")
+              .setLink({ href: url })
+              .run();
+
+            setShowLinkDialog(false);
+          }}
+        >
+          Save
+        </button>
+      </div>
+    );
+  };
 
   return (
     <div className="relative max-w-[70%] md:max-w-full">
       {showEmojiPicker && (
         <div
-          className="absolute top-10 left-0 lg:-top-20 lg:left-32 z-[9999]"
+          className="absolute top-10 left-0 lg:-top-20 z-[9999]"
           ref={emojiPickerRef}
         >
           <Picker
@@ -91,6 +121,14 @@ export default function EditorToolbar({
             }}
             previewPosition="none"
           />
+        </div>
+      )}
+      {showLinkDialog && (
+        <div
+          className="absolute top-16 left-0 lg:top-16 lg:right-0 z-[9999] "
+          ref={emojiPickerRef}
+        >
+          <SetLinkDialog />
         </div>
       )}
       <div className="flex gap-4 text-sm overflow-x-auto overflow-y-hidden">
@@ -167,9 +205,11 @@ export default function EditorToolbar({
               : "text-zinc-500"
           }`}
           onClick={() => {
-            setLink();
+            setShowLinkDialog(!showLinkDialog);
+            setNotInteractingWithModal(!showLinkDialog);
           }}
           disabled={editor.state.selection.empty}
+          ref={triggerRef}
         >
           <LinkIcon className="w-6 h-6" />
         </button>
@@ -207,86 +247,6 @@ export default function EditorToolbar({
           <TaskListIcon className="w-6 h-6" />
         </button>
       </div>
-      {/* <button
-        onClick={() => editor.chain().focus().toggleBold().run()}
-        disabled={!editor.can().chain().focus().toggleBold().run()}
-        className={editor.isActive("bold") ? "is-active" : ""}
-      ></button>
-      <button
-        onClick={() => editor.chain().focus().toggleItalic().run()}
-        disabled={!editor.can().chain().focus().toggleItalic().run()}
-        className={editor.isActive("italic") ? "is-active" : ""}
-      >
-        italic
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleStrike().run()}
-        disabled={!editor.can().chain().focus().toggleStrike().run()}
-        className={editor.isActive("strike") ? "is-active" : ""}
-      >
-        strike
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleCode().run()}
-        disabled={!editor.can().chain().focus().toggleCode().run()}
-        className={editor.isActive("code") ? "is-active" : ""}
-      >
-        code
-      </button>
-      <button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
-        clear marks
-      </button>
-      <button onClick={() => editor.chain().focus().clearNodes().run()}>
-        clear nodes
-      </button>
-      <button
-        onClick={() => editor.chain().focus().setParagraph().run()}
-        className={editor.isActive("paragraph") ? "is-active" : ""}
-      >
-        paragraph
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-        className={editor.isActive("heading", { level: 1 }) ? "is-active" : ""}
-      >
-        h1
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-        className={editor.isActive("heading", { level: 2 }) ? "is-active" : ""}
-      >
-        h2
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-        className={editor.isActive("heading", { level: 3 }) ? "is-active" : ""}
-      >
-        h3
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleBulletList().run()}
-        className={editor.isActive("bulletList") ? "is-active" : ""}
-      >
-        bullet list
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        className={editor.isActive("orderedList") ? "is-active" : ""}
-      >
-        ordered list
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-        className={editor.isActive("codeBlock") ? "is-active" : ""}
-      >
-        code block
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleTaskList().run()}
-        className={editor.isActive("taskList") ? "is-active" : ""}
-      >
-        task list
-      </button> */}
     </div>
   );
 }
