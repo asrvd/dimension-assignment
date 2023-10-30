@@ -59,6 +59,7 @@ export async function GET(request: NextRequest) {
       status: 200,
     });
   } catch (e) {
+    console.error(e);
     return new Response(JSON.stringify([]));
   }
 }
