@@ -100,7 +100,7 @@ export default function MultiSelectComponent({
         leave="transition ease-in duration-75"
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
-        className={`absolute top-8 z-[20] w-60 text-sm font-medium text-zinc-500 bg-white border border-zinc-200 rounded-lg ${
+        className={`absolute top-8 z-[20] lg:w-60 w-44 text-sm font-medium text-zinc-500 bg-white border border-zinc-200 rounded-lg ${
           align === "left" ? "left-0" : "right-0"
         }`}
         ref={dropdownRef}
