@@ -188,7 +188,7 @@ export default function TaskModal() {
             </div>
             <button
               type="button"
-              className="text-zinc-700 hover:text-zinc-900 hover:bg-zinc-100 p-2 rounded-md focus:outline-none text-center flex justify-center items-center"
+              className="text-zinc-500 hover:text-zinc-700 hover:bg-zinc-100 p-2 rounded-md focus:outline-none text-center flex justify-center items-center"
               onClick={() => {
                 setShowModal(false);
                 reset();
